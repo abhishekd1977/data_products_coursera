@@ -32,7 +32,7 @@ server <- function(input, output) {
     summary(dataset)
   })
   
-  # Show the first "n" observations ----
+  # Show the data in Data Table View ----
   output$view <- DT::renderDataTable({
     datasetInput()
   })
