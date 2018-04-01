@@ -9,26 +9,40 @@
 
 library(shiny)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
+# Define UI for dataset viewer app ----
+ui <- fluidPage(
   
-  # Application title
-  titlePanel("Old Faithful Geyser Data"),
+  # App title ----
+  titlePanel("Data Selector"),
   
-  # Sidebar with a slider input for number of bins 
+  # Sidebar layout with input and output definitions ----
   sidebarLayout(
+    
+    # Sidebar panel for inputs ----
     sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
-                   min = 1,
-                   max = 50,
-                   value = 30)
+      
+      # Input: Text for providing a caption ----
+      # Note: Changes made to the caption in the textInput control
+      # are updated in the output area immediately as you type
+      textInput(inputId = "caption",
+                label = "Caption:",
+                value = "My Page Title"),
+      
+      # Input: Selector for choosing dataset ----
+      selectInput(inputId = "dataset",
+                  label = "Choose a dataset:",
+                  choices = c("Diabetes", "Boston Housing", "Cars")),
+      
+      tags$br()
     ),
     
-    # Show a plot of the generated distribution
+    # Main panel for displaying outputs ----
     mainPanel(
-       plotOutput("distPlot"),
-       getwd()
+      h3(textOutput("caption", container = span)),
+      tabsetPanel(
+        tabPanel("Data Snapshot", DT::dataTableOutput("view")),
+        tabPanel("Data Summary", verbatimTextOutput("summary"))
+      )
     )
   )
-))
+)
