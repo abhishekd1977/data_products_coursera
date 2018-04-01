@@ -8,25 +8,32 @@
 #
 
 library(shiny)
-library(dplyr)
-library(ggplot2) # visualization
-library(ggthemes) # visualization
-#setwd("/Users/abhishekdubey/Desktop/Learning/Coursera/DevelopingDataProducts/week_4_assignment")
-setwd("/srv/connect/apps/data_products_coursera")
-getwd()
+library(DT)
+library(mlbench)
+data("PimaIndiansDiabetes")
+data("BostonHousing")
 
-# Define server logic required to draw a histogram
-shinyServer(function(input, output) {
-   
-  output$distPlot <- renderPlot({
-    
-    # generate bins based on input$bins from ui.R
-    x    <- faithful[, 2] 
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-    
-    # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    
+server <- function(input, output) {
+
+  datasetInput <- reactive({
+    switch(input$dataset,
+           "Diabetes" = PimaIndiansDiabetes,
+           "Boston Housing" = BostonHousing,
+           "Cars" = mtcars)
   })
   
-})
+  output$caption <- renderText({
+    input$caption
+  })
+  
+  # Generate a summary of the dataset ----
+  output$summary <- renderPrint({
+    dataset <- datasetInput()
+    summary(dataset)
+  })
+  
+  # Show the first "n" observations ----
+  output$view <- DT::renderDataTable({
+    datasetInput()
+  })
+}
