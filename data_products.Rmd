@@ -1,0 +1,47 @@
+---
+title: "Developing Data Products: Week 4 Assignment"
+author: "Abhishek Dubey"
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+## Project Summary
+I have built a simple reactive application, which loads the data on action of dropdown selection of predefined datasets. It is a single page application, which has following components-
+
+1. Sidebar Panel- Sidebar panel has 2 input controls-
+    + Input Text box for page title selection.
+    + Dropdown for dataset selection.
+
+2. Main Panel: Main Panel has 2 tabs-
+    + Data Snapshot- This tab shows the data in data table format. The R package DT provides an R interface to the JavaScript library DataTables. R data objects (matrices or data frames) can be displayed as tables on HTML pages, and DataTables provides filtering, pagination, sorting, and many other features in the tables. 
+
+    + Data Summary- This tab shows inter quartile range of the data.
+
+## Reactivity
+The reactive expression depends on the input expression input:dataset, and that it's used by two output expressions- output:summary and output$view. Try changing the dataset (using Choose a dataset) while looking at the reactive and then at the outputs; you will see first the reactive and then its dependencies flash.
+
+Notice also that the reactive expression doesn't just update whenever anything changes--only the inputs it depends on will trigger an update. Change the "Caption" field and notice how only the output$caption expression is re-evaluated.
+
+
+## Slide with R Output
+This page shows summary of BostonHousing data 
+
+```{r cars, echo = TRUE}
+library(mlbench)
+library(DT)
+data("BostonHousing")
+view <- DT::renderDataTable({BostonHousing})
+DT::dataTableOutput("view")
+summary(BostonHousing)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
