@@ -39,9 +39,9 @@ DT::dataTableOutput("view")
 summary(BostonHousing)
 ```
 
-## Slide with Plot
+## Final Comments
+The code has been checked into this location on GitHub-
+https://github.com/abhishekd1977/data_products_coursera
 
-```{r pressure}
-plot(pressure)
-```
+The main function in the code is "reactive", which allows us to make changes to output in main panel, based on input values selected in sidebar panel.
 
